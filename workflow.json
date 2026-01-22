@@ -1,0 +1,309 @@
+{
+  "name": "Multi-Agent Marketing Orchestrator",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        0
+      ],
+      "id": "16937018-055a-45a9-94fd-aa0ca9b57299",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c51c3d03-2eb9-4abe-9945-238913315e7c",
+              "name": "UrunAdi",
+              "value": "Akıllı Termos Pro",
+              "type": "string"
+            },
+            {
+              "id": "afaca226-82c0-47b9-9d54-bb40e4b8f9d9",
+              "name": "UrunOzellikleri",
+              "value": "Sıcaklığı 24 saat korur, dijital göstergeli, Bluetooth ile telefona bağlanır, su içmeyi hatırlatır.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -208,
+        0
+      ],
+      "id": "86a58e92-2dcc-41b0-9a1f-6f38ef2f57b3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=\"Sen dünyanın en iyi SEO uzmanısın. Aşağıdaki ürün için Google'da en çok aranacak 5 anahtar kelimeyi ve 1 adet dikkat çekici, tıklama odaklı Meta Başlığı (Title) yaz. Ürün: {{ $json.UrunAdi }} - {{ $json.UrunOzellikleri }}\""
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        -208
+      ],
+      "id": "f848e34f-ccbc-41bf-b1fe-c963decc677b",
+      "name": "Agent: SEO Uzmanı",
+      "credentials": {
+        "openAiApi": {
+          "id": "8G9HHRMyQLpATcg9",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=\"Sen viral içerik üreten bir sosyal medya yöneticisisin. Aşağıdaki ürün için Instagram Reels veya Story'de kullanılacak eğlenceli, emoji dolu ve harekete geçirici 3 farklı içerik fikri yaz. Ürün: {{ $json.UrunAdi }} - {{ $json.UrunOzellikleri }}\""
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9255dbb5-f87a-49e4-9cc9-9a41223ab0fa",
+      "name": "Agent: Instagram Fenomeni",
+      "credentials": {
+        "openAiApi": {
+          "id": "8G9HHRMyQLpATcg9",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=\"Sen insanların duygularına hitap eden bir metin yazarısın. Bu ürünü satmak için müşterinin 'korku' veya 'arzularına' dokunan kısa, vurucu bir web sitesi ürün açıklaması yaz. Ürün: {{ $json.UrunAdi }} - {{ $json.UrunOzellikleri }}\""
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        192
+      ],
+      "id": "9381f5ea-ba1f-4d87-8c3a-9d3cfbe8b7b6",
+      "name": "Agent: Satış Metni Yazarı",
+      "credentials": {
+        "openAiApi": {
+          "id": "8G9HHRMyQLpATcg9",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        368,
+        48
+      ],
+      "id": "78f91d83-31cc-4c6a-b67b-cd96345f4848",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        576,
+        48
+      ],
+      "id": "ed2af70b-8738-486f-a2c0-e82f7f5d32e3",
+      "name": "Merge: Final"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "\"Sen projenin Baş Editörüsün. Ekibindeki 3 farklı uzmandan (SEO, Sosyal Medya ve Satış) gelen aşağıdaki raporları incele ve bana 'Ürün Lansman Stratejisi' başlıklı, tek bir profesyonel rapor hazırla."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        752,
+        48
+      ],
+      "id": "9e75f0bf-81b7-4d3f-a63d-5026ffb68444",
+      "name": "Agent: Baş Editör",
+      "credentials": {
+        "openAiApi": {
+          "id": "8G9HHRMyQLpATcg9",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Agent: Instagram Fenomeni",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Agent: SEO Uzmanı",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Agent: Satış Metni Yazarı",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent: SEO Uzmanı": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent: Instagram Fenomeni": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Merge: Final",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Agent: Satış Metni Yazarı": {
+      "main": [
+        [
+          {
+            "node": "Merge: Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge: Final": {
+      "main": [
+        [
+          {
+            "node": "Agent: Baş Editör",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "2951bbab-204c-48e7-bf41-fa8ca6084c3a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a2e52c777bc2ceaba0402a3b3768c056f8e30c3434809d4df0853e039bf670b5"
+  },
+  "id": "jAjz1mK7rgB1XQEKTbC6d",
+  "tags": []
+}
